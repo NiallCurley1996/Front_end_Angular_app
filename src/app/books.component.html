@@ -1,0 +1,139 @@
+
+<body>
+<div class="container"> 
+    <div class="row">
+        <div class="card-columns">
+            <div *ngFor = "let book of webService.book_list | async">
+                <div class="card text-white bg-dark mb-4">
+                    <div class="card-header"
+                    [routerLink]="['/books', book._id]"
+                    style="cursor: pointer;">   
+                        <img src= {{book.cover_image}}> 
+                    </div>
+                    <div class="card-body"
+                    [routerLink]="['/books', book._id]"
+                    style="cursor: pointer;">
+                        <strong>Title:</strong> 
+                        {{ book.title }}<br>
+                        <strong>Author:</strong> 
+                      {{ book.author }}<br>
+                        <strong>Country:</strong> 
+                      {{ book.country}}<br>
+                      <strong>Language:</strong> 
+                      {{ book.language}}<br>
+                      <strong>Pages:</strong> 
+                      {{ book.pages}}<br>
+                      <strong>Publication Year:</strong> 
+                      {{ book.year}}
+                    </div>   
+                    <div class="card-footer" *ngIf="authService.loggedIn">
+                        <button class="btn btn-primary" style="background-color: red;" (click)="DeleteBook(book._id)">
+                            Delete
+                        </button>
+                        <!-- <button onclick="location.href='/editfrom.html'" class="btn btn-primary" style="margin-left: 20px; background-color: grey;" (click)="editform.html(book._id)">
+                            Edit 
+                        </button> --><!--Attempted to implment an edit button for each book record-->
+                    </div> 
+                </div>
+            </div>
+        </div> 
+    </div> 
+
+    <div class="row">
+        <div class="col-sm-5">
+            <button class="btn btn-primary"
+                (click)="previousPage()">Previous
+            </button>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button class="btn btn-primary"
+                (click)="nextPage()">Next</button>
+        </div>
+    </div> 
+</div> 
+
+
+<div *ngIf="authService.loggedIn" class="container" style="width: 600px;"  >
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Fill in this form to add a new book record:</h2>
+            <form [formGroup]="addNewBookForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <strong><label for="title">Author:</label></strong>
+                    <input type="text" id="author" name="author"
+                    class="form-control"
+                    formControlName="author"
+                    [ngClass]="{'error': isInvalid('author')}"
+                    pattern="\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+">
+
+                </div>
+                <div class="form-group">
+                    <strong><label for="title">Title:</label></strong>
+                   <input type="text" id="title" name="title"
+                    class="form-control"
+                    formControlName="title"
+                    [ngClass]="{'error': isInvalid('title')}"
+                    pattern="\b([A-ZÀ-ÿ0-9][-,a-z. ']+[ ]*)+">
+                </div>
+                <div class="form-group">
+                    <strong><label for="title">Country:</label></strong>
+                    <input type="text" id="country" name="country"
+                    class="form-control"
+                    formControlName="country"
+                    [ngClass]="{'error': isInvalid('country')}"
+                    pattern="\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+">
+                </div>
+                <div class="form-group">
+                    <strong><label for="title">Language:</label></strong>
+                    <input type="text" id="language" name="language"
+                    class="form-control"
+                    formControlName="language"
+                    [ngClass]="{'error': isInvalid('language')}"
+                    pattern="\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+">
+                </div>
+                <div class="form-group">
+                    <strong><label for="title">Cover Image (URL):</label></strong>
+                    <input type="text" id="cover_image" name="cover_image"
+                    class="form-control"
+                    formControlName="cover_image"
+                    [ngClass]="{'error': isInvalid('cover_image')}"
+                    pattern="(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)">
+                </div>
+                <div class="form-group">
+                    <strong><label for="title">Pages:</label></strong>
+                    <input type="text" id="pages" name="pages"
+                    class="form-control"
+                    formControlName="pages"
+                    [ngClass]="{'error': isInvalid('pages')}"
+                    pattern="[0-9]{1,4}">
+                </div>
+                <div class="form-group">
+                    <strong><label for="title">Year:</label></strong>
+                    <input type="text" id="year" name="year"
+                    class="form-control"
+                    formControlName="year"
+                    [ngClass]="{'error': isInvalid('year')}"
+                    pattern="[0-9]{1,4}">
+                </div>
+
+                <span *ngIf="isInComplete()">
+                    
+                </span>
+                <button *ngIf="!isInComplete()" type="submit"
+                class="btn btn-primary" style="background-color:blue;">Submit</button>
+            </form>
+        </div> 
+    </div>
+</div>
+
+<div *ngIf="!authService.loggedIn" class="container" style="width: 500px;">
+    <div class="row">
+        <div class="col-sm-12" style="padding-bottom: 100px;">
+             <h2>(Please log in to add a new book record)</h2>
+        </div>
+    </div>
+</div>
+
+
+
+</body>

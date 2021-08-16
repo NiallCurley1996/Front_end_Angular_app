@@ -1,0 +1,37 @@
+img{
+    height: 300px;;
+    width: 200px;
+}
+
+.container{
+    width: 320px;   
+}
+
+.error { background-color:  #fff0f0; }
+
+.row-1 {
+    padding-top: 100px; 
+}
+
+body {
+    background-color: #73c7bf; 
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
+}
+
+.edit-button {
+    background-color: lightblue;
+    color: black;
+}
+
+
+
+
+
+
+
+
+

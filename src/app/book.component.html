@@ -1,0 +1,116 @@
+
+<body>
+<div class="container" style="position: relative; left: -400px;">
+    <div class="row-1">
+        <h1>Book details</h1>
+        <div class="col-sm-11">
+                <div class="card text-white bg-dark mb-4"
+                [routerLink]="['/books', book._id]"
+                >
+                    
+                    <div class="card-header">   
+                        <img src= {{book.cover_image}}>
+                    </div>
+                    <div class="card-body">
+                        <strong>Title:</strong> 
+                        {{ book.title }}<br>
+                        <strong>Author:</strong> 
+                      {{ book.author }}<br>
+                      <strong>Country:</strong> 
+                      {{ book.country}}<br>
+                         <strong>Language:</strong> 
+                      {{ book.language}}<br>
+                      <strong>Pages:</strong>
+                      {{ book.pages}}<br>
+                      <strong>Publication Year:</strong>
+                      {{ book.year}}
+                    </div>  
+                </div>  
+        </div> 
+    </div> 
+</div> 
+
+<div *ngIf="authService.loggedIn" class ="container" style="position: relative; margin-top: -600px; padding-bottom: 100px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Please write a review for this book:</h2>
+            <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name"
+                            class="form-control"
+                            formControlName="name"
+                            [ngClass]="{'error': isInvalid('name')}" 
+                            pattern="\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+">
+                            
+                </div>
+                <div class="form-group">
+                    <label for="comments">What did you think of this book?
+                    </label>
+                    <textarea id="comments" rows="3" name="comments"
+                                class="form-control"
+                                formControlName="comments"
+                                [ngClass]="{'error': isInvalid('comments')}" 
+                                pattern="\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+">
+                                 
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="book_rating">Please provide a rating</label>
+                    <select id="book_rating" name="book_rating"
+                            class="form-control"
+                            formControlName="book_rating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option> 
+                    </select>
+                </div>
+                <span *ngIf="isIncomplete()">
+                    
+                </span>
+                <button *ngIf="!isIncomplete()" type="submit"
+                        class="btn btn-primary">Submit</button>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!authService.loggedIn" class="container" style="position: relative; margin-top: -600px; padding-bottom: 400px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>You must be logged in to add a review this book</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="position: relative; width: 500px;">
+    <div class="row">
+        <h1>List of reviews made by readers:</h1>
+        <div class="card-body">
+            <div class="card bg-light mb-3"
+              *ngFor =
+                "let review of webService.list_of_reviews | async">
+                <div class="card-header" style="background-color: blueviolet; color: white;">
+                    Review made by {{ review.name }}  
+                </div>
+                <div class="card-body">
+                    Comments: {{review.comments}} 
+                </div>
+                <div class="card-body">
+                    Reader Rating: {{review.book_rating}}
+                </div>     
+            </div>
+        </div> 
+    </div> 
+</div> 
+</body>
+
+
